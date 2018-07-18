@@ -1,5 +1,7 @@
 package converter
 
+import kotlin.math.abs
+
 class PoolInterpreter {
     companion object {
         fun generateDie(dieType: DieType): Die {
@@ -103,6 +105,19 @@ class PoolInterpreter {
     fun getPoolResult(dieList: ArrayList<Die>):  Map<Symbol, Int> {
         val symbols = getPoolSymbols(dieList)
 
-        return symbols
+        val numOfSuccesses = (symbols.getOrDefault(Symbol.Success, 0) + symbols.getOrDefault(Symbol.Triumph, 0))
+        val numOfFailures = (symbols.getOrDefault(Symbol.Failure, 0) + symbols.getOrDefault(Symbol.Despair, 0))
+        val numOfAdvantages = symbols.getOrDefault(Symbol.Advantage, 0)
+        val numOfThreats = symbols.getOrDefault(Symbol.Threat, 0)
+
+        return mapOf(
+                Symbol.Success to if (numOfSuccesses > numOfFailures) abs(numOfSuccesses - numOfFailures) else 0,
+                Symbol.Failure to if (numOfSuccesses <= numOfFailures) abs(numOfSuccesses - numOfFailures) else 0,
+                Symbol.Triumph to symbols.getOrDefault(Symbol.Triumph, 0),
+                Symbol.Despair to symbols.getOrDefault(Symbol.Despair, 0),
+                Symbol.Advantage to if (numOfAdvantages >= numOfThreats) abs(numOfAdvantages - numOfThreats) else 0,
+                Symbol.Threat to if (numOfAdvantages < numOfThreats) abs(numOfAdvantages - numOfThreats) else 0,
+                Symbol.Blank to 0
+        )
     }
 }

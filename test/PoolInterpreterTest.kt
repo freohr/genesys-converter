@@ -34,11 +34,11 @@ class PoolInterpreterTest {
                 DieType.Challenge, DieType.Difficulty, DieType.Difficulty, DieType.Difficulty)) as ArrayList<Die>
 
         pool.forEach { die -> when(die.type) {
-            DieType.Ability -> die.side = 4 // (Success, Success)
-            DieType.Proficiency -> die.side = 12 // (Triumph)
-            DieType.Boost -> die.side = 5 // (Adv, Adv)
-            DieType.Difficulty -> die.side = 8 // (Threat, Failure)
-            DieType.Challenge -> die.side = 12 // (Despair)
+            DieType.Ability -> die.side = 4 // (Success, Success) * 1
+            DieType.Proficiency -> die.side = 12 // (Triumph) * 3
+            DieType.Boost -> die.side = 5 // (Adv, Adv) * 1
+            DieType.Difficulty -> die.side = 8 // (Threat, Failure) * 3
+            DieType.Challenge -> die.side = 12 // (Despair) * 1
             else -> {
                 // We ignore the other types of dice for this test
             }
