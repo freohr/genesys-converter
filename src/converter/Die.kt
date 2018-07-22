@@ -1,11 +1,12 @@
 package converter
 
+@Suppress("ConvertSecondaryConstructorToPrimary")
 class Die {
 
-    private val type: DieType
-    private val conversionTable: Map<Int, Array<Symbol>>
+    val type: DieType
+    private val conversionTable: Map<Int, ArrayList<Symbol>>
 
-    constructor(type: DieType, conversionTable: Map<Int, Array<Symbol>>) {
+    constructor(type: DieType, conversionTable: Map<Int, ArrayList<Symbol>>) {
         this.type = type
         this.conversionTable = conversionTable
     }
@@ -42,7 +43,7 @@ class Die {
         }
 
 
-    fun result(): Array<Symbol>{
-        return if (conversionTable[side] != null) conversionTable[side]!! else arrayOf(Symbol.Blank)
+    fun result(): ArrayList<Symbol>{
+        return conversionTable.getOrDefault(side, arrayListOf(Symbol.Blank))
     }
 }
